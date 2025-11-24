@@ -12,8 +12,12 @@ export default function FallingHearts() {
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+    // Store dimensions
+    let canvasWidth = window.innerWidth;
+    let canvasHeight = window.innerHeight;
+    
+    canvas.width = canvasWidth;
+    canvas.height = canvasHeight;
 
     const mouse = {
       x: null as number | null,
@@ -27,8 +31,10 @@ export default function FallingHearts() {
     };
 
     const handleResize = () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
+      canvasWidth = window.innerWidth;
+      canvasHeight = window.innerHeight;
+      canvas.width = canvasWidth;
+      canvas.height = canvasHeight;
       init();
     };
 
@@ -72,11 +78,11 @@ export default function FallingHearts() {
         this.velocityY = 0;
         this.opacity = 0;
         this.reset();
-        this.y = Math.random() * canvas.height;
+        this.y = Math.random() * canvasHeight;
       }
 
       reset() {
-        this.x = Math.random() * canvas.width;
+        this.x = Math.random() * canvasWidth;
         this.y = -50;
         this.size = (Math.random() * 0.5 + 0.4) * 3;
         this.speedY = Math.random() * 1 + 0.5;
@@ -111,17 +117,17 @@ export default function FallingHearts() {
 
         this.rotation += this.rotationSpeed;
 
-        if (this.y > canvas.height + 50) {
+        if (this.y > canvasHeight + 50) {
           this.reset();
         }
 
-        if (this.x < -50 || this.x > canvas.width + 50) {
-          this.x = Math.random() * canvas.width;
+        if (this.x < -50 || this.x > canvasWidth + 50) {
+          this.x = Math.random() * canvasWidth;
         }
       }
 
       draw() {
-        if (!imageLoaded) return;
+        if (!imageLoaded || !ctx) return;
 
         ctx.save();
         ctx.globalAlpha = this.opacity;
@@ -140,14 +146,16 @@ export default function FallingHearts() {
 
     function init() {
       heartsArray = [];
-      const numberOfHearts = Math.floor((canvas.width * canvas.height) / 35000);
+      const numberOfHearts = Math.floor((canvasWidth * canvasHeight) / 35000);
       for (let i = 0; i < numberOfHearts; i++) {
         heartsArray.push(new Heart());
       }
     }
 
     function animate() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      if (!ctx) return;
+      
+      ctx.clearRect(0, 0, canvasWidth, canvasHeight);
 
       for (let i = 0; i < heartsArray.length; i++) {
         heartsArray[i].update();

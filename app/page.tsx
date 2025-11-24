@@ -268,7 +268,6 @@ export default function Home() {
               alt="Us" 
               className="w-full h-full object-contain object-bottom-right"
               style={{ 
-                mixBlendMode: 'pass-through',
                 filter: 'sepia(5.3)'
               }}
             />
