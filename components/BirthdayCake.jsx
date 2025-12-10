@@ -70,7 +70,7 @@ export default function BirthdayCake({ onCandleBlown, onAllCandlesBlown }) {
       sum += dataArray[i];
     }
     const average = sum / bufferLength;
-    return average > 80; // Increased threshold from 40 to 80
+    return average > 60; // Increased threshold from 40 to 80
   };
 
   const blowOutCandles = () => {
